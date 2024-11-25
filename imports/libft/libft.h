@@ -6,11 +6,11 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:48:13 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/10/10 12:10:46 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/24 13:51:05 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef LIBFT_H
 
+#ifndef LIBFT_H
 # define LIBFT_H
 
 # include <unistd.h>
@@ -79,4 +79,10 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *));
+
+#ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+char	*get_next_line(int fd);
 #endif

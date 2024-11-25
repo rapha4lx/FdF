@@ -5,53 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 19:04:53 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/23 23:57:02 by rferro-d         ###   ########.fr       */
+/*   Created: 2024/11/24 12:05:02 by rferro-d          #+#    #+#             */
+/*   Updated: 2024/11/24 13:45:07 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-static int	ft_strlen(const char *str)
+static t_list	*t_line_new_line(const char *str, int size)
 {
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-static char	*ft_strjoin(char *s1, char *s2)
-{
-	int		s1_sz;
-	int		s2_sz;
-	int		i;
+	t_list	*new;
 	char	*buff;
+	int		i;
 
-	s1_sz = ft_strlen(s1);
-	s2_sz = ft_strlen(s2);
-	i = 0;
-	if (!s1 && !s2)
-		return (NULL);
-	buff = (char *)malloc(sizeof(char) * (s1_sz + s2_sz + 1));
+	buff = (char *)malloc(sizeof(char) * (size + 1));
 	if (!buff)
 		return (NULL);
-	while (s1_sz > i || s2_sz > i)
+	i = 0;
+	while (str[i] && i < size)
 	{
-		if (s1_sz > i)
-			buff[i] = s1[i];
-		if (s2_sz > i)
-			buff[s1_sz + i] = s2[i];
+		buff[i] = str[i];
 		i++;
 	}
-	buff[s1_sz + s2_sz] = '\0';
-	return (buff);
+	buff[i] = '\0';
+	new = (t_list *)malloc(sizeof(t_list) * 1);
+	if (!new)
+		return (NULL);
+	new->content = (void *)buff;
+	new->next = NULL;
+	return (new);
 }
 
-static int	process_line(int fd, char *buff, t_line **head)
+static int	process_line(int fd, char *buff, t_list **head)
 {
 	int	n_count;
 	int	b_len;
@@ -59,41 +44,46 @@ static int	process_line(int fd, char *buff, t_line **head)
 	if (read(fd, buff, BUFFER_SIZE) <= 0)
 		return (0);
 	b_len = ft_strlen(buff);
-	n_count = ft_strchr(buff, '\n');
+	n_count = ft_strchr(buff, '\n') - buff;
 	if (n_count < b_len)
 	{
 		while (buff && n_count < b_len)
 		{
 			if (n_count == 0)
 				n_count++;
-			t_line_add_back(head, t_line_new_line(buff, n_count));
+			ft_lstadd_back(head, t_line_new_line(buff, n_count));
 			buff += n_count;
-			n_count = ft_strchr(buff, '\n');
+			n_count = ft_strchr(buff, '\n') - buff;
 			b_len = ft_strlen(buff);
 		}
 		if (b_len)
-			t_line_add_back(head, t_line_new_line(buff, b_len));
+			ft_lstadd_back(head, t_line_new_line(buff, b_len));
 		return (0);
 	}
-	t_line_add_back(head, t_line_new_line(buff, b_len));
+	ft_lstadd_back(head, t_line_new_line(buff, b_len));
 	return (1);
 }
 
-static char	*get_line(t_line **head, char **line)
+static void    free_content(void * p)
+{
+    free (p);
+}
+
+static char	*get_line(t_list **head, char **line)
 {
 	char	*temp_buff;
-	t_line	*temp;
+	t_list	*temp;
 
 	while (*head)
 	{
-		if (line && *line && (*line)[ft_strchr(*line, '\n')] == '\n')
+		if (line && *line && (*line)[ft_strchr(*line, '\n') - *line] == '\n')
 			return (*line);
 		temp = (*head)->next;
 		temp_buff = *line;
 		*line = ft_strjoin(*line, (char *)(*head)->content);
 		if (temp_buff)
 			free(temp_buff);
-		t_line_clear(head);
+		ft_lstclear(head, &free_content);
 		*head = temp;
 	}
 	return (*line);
@@ -104,7 +94,7 @@ char	*get_next_line(int fd)
 	char			buff[BUFFER_SIZE + 1];
 	char			*line;
 	int				i;
-	static t_line	*head = NULL;
+	static t_list	*head = NULL;
 
 	i = -1;
 	line = NULL;
@@ -115,7 +105,7 @@ char	*get_next_line(int fd)
 	if (head)
 	{
 		line = get_line(&head, &line);
-		if (ft_strchr(line, '\n') < ft_strlen(line))
+		if ((size_t)(ft_strchr(line, '\n') - *line) < ft_strlen(line))
 			return (line);
 	}
 	while (process_line(fd, buff, &head))
