@@ -8,15 +8,19 @@ LIBFT_PATH=	$(IMPORTS)libft/
 LIBFT_A=	$(LIBFT_PATH)libft.a
 
 CC=		cc
-CFLAGS=	-Wall -Werror -Wextra
+CFLAGS=	-g -Wall -Werror -Wextra
 INCLUDE= includes
 
 SRCS=	fdf.c \
+		srcs/parse/map_lines.c \
+		srcs/parse/map_pointer.c \
+		srcs/parse/map_control.c \
 		srcs/parse/parser.c
 
 OBJS=	$(SRCS:.c=.o)
 
 all: $(NAME)
+
 $(NAME): $(OBJS) $(LIBFT_A) $(GNL_A)
 #	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -L$(GNL_PATH) -lgnl -o $(NAME)
 	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -o $(NAME)
@@ -41,3 +45,7 @@ fclean: clean
 r: $(NAME)
 	@clear
 	@./$(NAME) ./test.txt
+
+c: fclean $(NAME)
+
+# $(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -o $(NAME)
