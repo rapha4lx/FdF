@@ -15,6 +15,7 @@ SRCS=	fdf.c \
 		srcs/parse/map_lines.c \
 		srcs/parse/map_pointer.c \
 		srcs/parse/map_control.c \
+		srcs/parse/map_build.c \
 		srcs/parse/parser.c
 
 OBJS=	$(SRCS:.c=.o)
