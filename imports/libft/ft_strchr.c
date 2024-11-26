@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 16:29:12 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/10/08 18:20:10 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/25 20:05:25 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return (NULL);
 	if (c == 0)
 		return ((char *)s + ft_strlen((char *)s));
 	while (*s)
