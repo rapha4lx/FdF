@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/24 22:57:04 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/25 21:58:16 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 #include <fcntl.h>
 #include <stdio.h>
 // #include "../includes/get_next_line.h"
-#include "../includes/libft.h"
+#include "../../imports/libft/libft.h"
 
 int		init_map(t_map **map)
 {
 	(*map) = (t_map*)malloc(sizeof(t_map) * 1);
-	if (*map)
+	if (!*map)
 		return (0);
 	(*map)->status = 0;
+	(*map)->map_fd = -1;
+	(*map)->map_file = NULL;
 	(*map)->map_width = -1;
 	(*map)->map_height = -1;
 	(*map)->map_lines = NULL;
@@ -30,15 +32,15 @@ int		init_map(t_map **map)
 
 void	free_map(t_map *map)
 {
-	int		m_width;
-	int		m_height;
-
 	if (!map)
 		return;
-	m_width = 0;
-	m_height = 0;
-
-	
+	if (map->fd_status)
+	{
+		while (get_next_line(map->map_fd));
+		close(map->map_fd);
+	}
+	ft_sline_clear(&map->map_lines, NULL);
+	free(map->map_file);
 	free(map);
 }
 
@@ -48,33 +50,41 @@ int		map_line(t_map **map, char *line)
 	int		buff_s;
 
 	buff = ft_split(line, ' ');
-	buff_s = 0;
-	while (buff[buff_s] != NULL)
-		buff_s++;
+	buff_s = ft_get_nsplit_size(buff, '\n');
 	if ((*map)->map_width == -1)
 		(*map)->map_width = buff_s;
-
+	else if ((*map)->map_width != buff_s)
+	{
+		(*map)->status = -1;
+		return (0);
+	}
+	ft_free_split(buff);
 	return (1);
 }
 
 int		map_check(char *file, t_map **map)
 {
-    int		fd;
     char	*line;
 	
-	fd = open(file, O_RDONLY);
-	line = get_next_line(fd);
-	init_map(map);
-    while(*map && line)
+	(*map)->map_fd = open(file, O_RDONLY);
+	if ((*map)->map_fd < 0)
+		return (0);
+	(*map)->fd_status = 1;
+	(*map)->map_file = file;
+	line = get_next_line((*map)->map_fd);
+    while (*map && line)
 	{
 		if (!(map_line(map, line)))
 		{
 			free_map(*map);
-			break;
+			free(line);
+			return (0);
 		}
-		line = get_next_line(fd);
+		free(line);
+		line = get_next_line((*map)->map_fd);
 	}
-	close(fd);
+	(*map)->fd_status = 0;
+	close((*map)->map_fd);
 	return (*map != NULL);
 }
 
