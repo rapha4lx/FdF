@@ -7,7 +7,10 @@ void	ft_free_split(char **buffer)
     if (!buffer)
         return ;
     it = 0;
-    while (buffer[it])
-        free(buffer[it++]);
+    while (buffer[it] != NULL)
+    {
+            free(buffer[it]);
+            it++;
+    }
     free(buffer);
 }

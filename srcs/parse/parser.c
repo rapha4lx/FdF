@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/25 21:58:16 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:52:16 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@ int		init_map(t_map **map)
 	return (1);
 }
 
-void	free_map(t_map *map)
+void	free_map(t_map **map)
 {
-	if (!map)
+	if (!(*map))
 		return;
-	if (map->fd_status)
+	if ((*map)->fd_status && (*map)->map_fd != 0)
 	{
-		while (get_next_line(map->map_fd));
-		close(map->map_fd);
+		while ((get_next_line((*map)->map_fd)))
+			;
+		close((*map)->map_fd);
 	}
-	ft_sline_clear(&map->map_lines, NULL);
-	free(map->map_file);
-	free(map);
+	ft_sline_clear(&(*map)->map_lines, NULL);
+	free(*map);
+	(*map) = NULL;
 }
 
 int		map_line(t_map **map, char *line)
@@ -55,9 +56,12 @@ int		map_line(t_map **map, char *line)
 		(*map)->map_width = buff_s;
 	else if ((*map)->map_width != buff_s)
 	{
-		(*map)->status = -1;
+		ft_free_split(buff);
 		return (0);
 	}
+	if (!build_line(map, buff))
+		return (0);
+	buff_s = 0;
 	ft_free_split(buff);
 	return (1);
 }
@@ -74,15 +78,17 @@ int		map_check(char *file, t_map **map)
 	line = get_next_line((*map)->map_fd);
     while (*map && line)
 	{
+		ft_search_and_replace(line, '\n', '\0');
 		if (!(map_line(map, line)))
 		{
-			free_map(*map);
+			free_map(map);
 			free(line);
 			return (0);
 		}
 		free(line);
 		line = get_next_line((*map)->map_fd);
 	}
+	free(line);
 	(*map)->fd_status = 0;
 	close((*map)->map_fd);
 	return (*map != NULL);

@@ -2,13 +2,26 @@
 #include "imports/libft/libft.h"
 #include "srcs/parse/parser.h"
 
-void  map_error(char *map)
+static void  map_error(char *map_file, t_map **map)
 {
   ft_putstr("This map: ");
-  ft_putstr(map);
+  ft_putstr(map_file);
   ft_putstr(" is brock\n");
+  free_map(map);
   exit(0);
 }
+
+// static void print_map(t_map *map)
+// {
+//   while ()
+//   {
+//     while (/* condition */)
+//     {
+//       /* code */
+//     }
+     
+//   }
+// }
 
 int main(int argc, char **argv)
 {
@@ -25,6 +38,9 @@ int main(int argc, char **argv)
     ft_putstr("[SUCCESS] init_map\n");
     ft_putstr("[START] map_check\n");
     if (!map_check(argv[1], &map))
-      map_error(argv[1]);
+      map_error(argv[1], &map);
+    ft_putstr("[END] success read map\n");
+    // print_map(map);
+    free_map(&map);
     return (0);
 }

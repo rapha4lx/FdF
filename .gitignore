@@ -37,7 +37,6 @@ imports/libft/ft_substr.o
 imports/libft/ft_tolower.o
 imports/libft/ft_toupper.o
 imports/libft/libft.a
-imports/libft/Makefile
 imports/libft/README.md
 imports/libft/run_docker.sh
 srcs/parser.o

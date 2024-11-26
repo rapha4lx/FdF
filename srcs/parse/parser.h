@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 04:31:34 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/25 21:16:13 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:23:33 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_lines		*ft_sline_new(void);
 void	ft_sline_add_back(t_lines **lst, t_lines *new);
 void	ft_sline_delone(t_lines *lst);
 void	ft_sline_clear(t_lines **lst, void (*del)(void *));
+t_lines		*ft_sline_get_last(t_lines *lst);
 
 typedef struct s_map
 {
@@ -53,7 +54,7 @@ typedef struct s_map
 
 int		init_map(t_map **map);
 int		map_check(char *file, t_map **map);
-int		fill_map_line(char **buff, t_map **map);
-void	free_map(t_map *map);
+int		build_line(t_map **map, char **buff);
+void	free_map(t_map **map);
 
 #endif

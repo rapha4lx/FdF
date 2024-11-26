@@ -62,3 +62,12 @@ void	ft_sline_clear(t_lines **lst, void (*del)(void *))
 	// 		*lst = it;
 	// 	}
 }
+
+t_lines		*ft_sline_get_last(t_lines *lst)
+{
+	if (lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
