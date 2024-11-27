@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:01:07 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/26 19:12:22 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:29:14 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_map_pointer	*filter_collum(char *buff)
 	filter = ft_strnstr(buff, "0x", ft_strlen(buff) + 1);
 	hex = NULL;
 	if (filter)
-		hex = ft_substr(filter, 1, 9);
+		hex = ft_substr(filter, 0, 9);
 	return (ft_m_pointer_new(value, hex));
 }
 
