@@ -10,9 +10,7 @@ t_map_pointer	*ft_m_pointer_new(int value, char* hex)
 	if (!node)
 		return (NULL);
 	node->value = value;
-	node->hex = NULL;
-	if (hex)
-		node->hex = ft_strdup(hex);
+	node->hex = hex;
 	node->next = NULL;
 	return (node);
 }
