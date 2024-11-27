@@ -6,14 +6,13 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/26 19:52:16 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:39:09 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include <fcntl.h>
 #include <stdio.h>
-// #include "../includes/get_next_line.h"
 #include "../../imports/libft/libft.h"
 
 int		init_map(t_map **map)
@@ -50,6 +49,8 @@ int		map_line(t_map **map, char *line)
 	char	**buff;
 	int		buff_s;
 
+	if (!(*line) && *map)
+		return (1);
 	buff = ft_split(line, ' ');
 	buff_s = ft_get_nsplit_size(buff, '\n');
 	if ((*map)->map_width == -1)
@@ -60,8 +61,10 @@ int		map_line(t_map **map, char *line)
 		return (0);
 	}
 	if (!build_line(map, buff))
+	{
+		ft_free_split(buff);
 		return (0);
-	buff_s = 0;
+	}
 	ft_free_split(buff);
 	return (1);
 }
@@ -91,7 +94,7 @@ int		map_check(char *file, t_map **map)
 	free(line);
 	(*map)->fd_status = 0;
 	close((*map)->map_fd);
-	return (*map != NULL);
+	return (1);
 }
 
 

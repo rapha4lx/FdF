@@ -9,6 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/fdf",
+            // "args": ["${workspaceFolder}/test_maps/mars.fdf"],
             "args": ["${workspaceFolder}/test.txt"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

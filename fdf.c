@@ -11,17 +11,26 @@ static void  map_error(char *map_file, t_map **map)
   exit(0);
 }
 
-// static void print_map(t_map *map)
-// {
-//   while ()
-//   {
-//     while (/* condition */)
-//     {
-//       /* code */
-//     }
-     
-//   }
-// }
+static void print_map(t_lines *lines)
+{
+	t_lines *it_line;
+	t_map_pointer *it_pointer;
+
+	it_line = lines;
+	while (it_line)
+	{
+		it_pointer = it_line->pointer;
+		while (it_pointer)
+		{
+			ft_putnbr_fd(it_pointer->value, 1);
+			if (it_pointer->next)
+				ft_putchar_fd(' ', 1);
+			it_pointer = it_pointer->next;
+		}
+		it_line = it_line->next;
+		ft_putchar_fd('\n', 1);
+	}
+}
 
 int main(int argc, char **argv)
 {
@@ -40,7 +49,7 @@ int main(int argc, char **argv)
     if (!map_check(argv[1], &map))
       map_error(argv[1], &map);
     ft_putstr("[END] success read map\n");
-    // print_map(map);
+    print_map(map->map_lines);
     free_map(&map);
     return (0);
 }
