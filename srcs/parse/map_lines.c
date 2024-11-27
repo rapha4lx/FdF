@@ -6,7 +6,7 @@ t_lines		*ft_sline_new(void)
 {
 	t_lines		*it;
 
-	it = (t_lines*)malloc(sizeof(t_lines) * 1);
+	it = (t_lines*)malloc(sizeof(t_lines));
 	if (!it)
 		return (NULL);
 	it->next = NULL;
