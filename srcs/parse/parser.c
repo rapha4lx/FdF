@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/27 19:39:09 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:16:39 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ int		init_map(t_map **map)
 
 void	free_map(t_map **map)
 {
+	char * line;
+
 	if (!(*map))
 		return;
 	if ((*map)->fd_status && (*map)->map_fd != 0)
 	{
-		while ((get_next_line((*map)->map_fd)))
-			;
+		while ((line = get_next_line((*map)->map_fd)))
+			free (line);
 		close((*map)->map_fd);
 	}
 	ft_sline_clear(&(*map)->map_lines, NULL);
