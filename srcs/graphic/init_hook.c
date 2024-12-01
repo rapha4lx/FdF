@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/30 23:42:35 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/01 03:22:16 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,24 @@
 
 #include <unistd.h>
 
-// void	free_hook(void)
-// {
-	
-// }
-
-int		close_window(int keycode, t_window *window)
+static int		close_from_button(t_window *window)
 {
-	(void)keycode;
-	free_window(window);
-	write(1,"key\n", 4);
+	mlx_loop_end(window->mlx);
 	return (0);
 }
 
-void	init_hook(t_window *window)
+static int		keyboard_hook(int keycode, t_window *window)
 {
-	mlx_hook(window->win, 2, KeyPressMask, close_window, window);
+	if (keycode == 53 || keycode == 65307)
+		return (free_window(window));
+	return (0);
+}
+
+int	init_hook(t_window *window)
+{
+	if (!mlx_hook(window->win, ON_KEYDOWN, KeyPressMask, keyboard_hook, window))
+		return (0);
+	if (!mlx_hook(window->win, ON_DESTROY, NoEventMask, close_from_button, window))
+		return (0);
+	return (1);
 }
