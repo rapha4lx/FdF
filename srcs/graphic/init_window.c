@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:43:38 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 03:15:30 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:41:03 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "graphic.h"
 #include <stdlib.h>
 
-int		free_window(t_window *window)
+int	free_window(t_window *window)
 {
 	if (window->mlx && window->win)
 	{
@@ -27,21 +27,37 @@ int		free_window(t_window *window)
 	return (1);
 }
 
+static int	init_display(t_window *window)
+{
+	window->mlx = mlx_init();
+	if (!window->mlx)
+	{
+		ft_putstr(CREATE_DISPLAY_FAIL);
+		return (0);
+	}
+	mlx_get_screen_size(window->mlx, &window->sizex,
+		&window->sizey);
+	if (window->sizex == -1 && window->sizey == -1)
+	{
+		mlx_destroy_display(window->mlx);
+		free(window->mlx);
+		ft_putstr(FAIL_GET_SCREEN_SIZE);
+		return (0);
+	}
+	return (1);
+}
+
 void	init_window(t_map *map)
 {
 	t_window	window;
 
 	window.map = map;
-	if (!(window.mlx = mlx_init()))
-		return (ft_putstr (CREATE_DISPLAY_FAIL)); 
-	if (!mlx_get_screen_size(window.mlx, &window.sizex,
-		&window.sizey))
-	{
-		mlx_destroy_display(window.mlx);
-		return (ft_putstr(FAIL_GET_SCREEN_SIZE));
-	}
-	window.win = mlx_new_window(window.mlx, window.sizex
-	,window.sizey, "FdF");
+	window.sizex = -1;
+	window.sizey = -1;
+	if (!init_display(&window))
+		return ;
+	window.win = mlx_new_window(window.mlx, window.sizex,
+			window.sizey, "FdF");
 	if (!window.win)
 	{
 		mlx_destroy_display(window.mlx);
