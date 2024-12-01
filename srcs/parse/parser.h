@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 04:31:34 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/26 18:23:33 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/11/30 23:28:53 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,22 @@ typedef struct s_lines
 	struct s_lines	*next;
 }	t_lines;
 
-t_lines		*ft_sline_new(void);
+t_lines	*ft_sline_new(void);
 void	ft_sline_add_back(t_lines **lst, t_lines *new);
 void	ft_sline_delone(t_lines *lst);
 void	ft_sline_clear(t_lines **lst, void (*del)(void *));
-t_lines		*ft_sline_get_last(t_lines *lst);
+t_lines	*ft_sline_get_last(t_lines *lst);
 
 typedef struct s_map
 {
-    int     status;
-	
+	int		status;
 	int		map_fd;
 	int		fd_status;
-	
 	char	*map_file;
-	
 	int		map_width;
 	int		map_height;
-	t_lines *map_lines;
-}       t_map;
+	t_lines	*map_lines;
+}	t_map;
 
 int		init_map(t_map **map);
 int		map_check(char *file, t_map **map);
