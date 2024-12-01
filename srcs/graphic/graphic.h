@@ -6,19 +6,19 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 03:07:53 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:30:24 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GRAPHIC_H
 # define GRAPHIC_H
+# include "../parse/parser.h"
+# include "../hooks/hooks.h"
 
-#include "../parse/parser.h"
-
-#define CREATE_DISPLAY_FAIL "Fail set up connection to the graphical system\n"
-#define FAIL_GET_SCREEN_SIZE "Fail get screen size"
-#define CREATE_WINDOW_FAIL "No Success to create window"
-#define INIT_HOOK_FAIL "Init Hook Fail"
+# define CREATE_DISPLAY_FAIL "Fail set up connection to the graphical system\n"
+# define FAIL_GET_SCREEN_SIZE "Fail get screen size"
+# define CREATE_WINDOW_FAIL "No Success to create window"
+# define INIT_HOOK_FAIL "Init Hook Fail"
 
 typedef struct s_window
 {
@@ -27,8 +27,8 @@ typedef struct s_window
 
 	int		sizex;
 	int		sizey;
-	
-	t_map * map;
+	t_map	*map;
+	t_mouse	mouse;
 }	t_window;
 
 
