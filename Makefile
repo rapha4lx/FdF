@@ -18,7 +18,9 @@ SRCS=	fdf.c \
 		srcs/parse/map_build.c \
 		srcs/parse/parser.c \
 		srcs/graphic/init_window.c \
-		srcs/graphic/init_hook.c
+		srcs/graphic/init_hook.c \
+		srcs/hooks/keyboard_event.c \
+		srcs/hooks/mouse_events.c \
 
 
 
