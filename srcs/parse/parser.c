@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/28 18:16:39 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/01 21:49:52 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,21 @@ int		map_line(t_map **map, char *line)
 	return (1);
 }
 
+static int	count_line(t_lines *lst)
+{
+	int		size;
+
+	size = 0;
+	if (!lst)
+		return (size);
+	while (lst)
+	{
+		lst = lst->next;
+		size++;
+	}
+	return (size);
+}
+
 int		map_check(char *file, t_map **map)
 {
     char	*line;
@@ -94,6 +109,7 @@ int		map_check(char *file, t_map **map)
 		line = get_next_line((*map)->map_fd);
 	}
 	free(line);
+	(*map)->map_height = count_line((*map)->map_lines);
 	(*map)->fd_status = 0;
 	close((*map)->map_fd);
 	return (1);
