@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 17:30:24 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/01 22:03:59 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 # define CREATE_WINDOW_FAIL "No Success to create window"
 # define INIT_HOOK_FAIL "Init Hook Fail"
 
+
+
+typedef struct s_image
+{
+	void	*img_ptr;
+	char	*img_data;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_image;
+
 typedef struct s_window
 {
 	void	*mlx;
@@ -29,6 +40,8 @@ typedef struct s_window
 	int		sizey;
 	t_map	*map;
 	t_mouse	mouse;
+	t_image map_image;
+	t_image	panel_image;
 }	t_window;
 
 
@@ -40,4 +53,8 @@ int		free_window(t_window *window);
 
 void	free_hook(t_window **window);
 int		init_hook(t_window *window);
+
+int		init_images(t_window *window);
+void	free_images(t_window *window);
+void	render(t_window *window);
 #endif
