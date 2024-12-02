@@ -21,7 +21,7 @@ SRCS=	fdf.c \
 		srcs/graphic/init_hook.c \
 		srcs/hooks/keyboard_event.c \
 		srcs/hooks/mouse_events.c \
-
+		srcs/graphic/render.c
 
 
 OBJS=	$(SRCS:.c=.o)
