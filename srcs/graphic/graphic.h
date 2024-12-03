@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 22:03:59 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:32:42 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,19 @@
 # define CREATE_WINDOW_FAIL "No Success to create window"
 # define INIT_HOOK_FAIL "Init Hook Fail"
 
+// # define MAX(a, b) (((a > b) * a) + ((a < b) * b))
+// # define MAX(a, b) (a > b ? a : b)
+// # define MOD(a) (((a > 0) * a) + ((a < 0) * (-a))) 
+// # define MOD(a) ((a < 0) ? -a : a) 
 
+float mod(float i);
+float max(float a, float b);
+
+typedef struct s_draw_point
+{
+	int x;
+	int y;
+}	t_draw_point;
 
 typedef struct s_image
 {
@@ -29,6 +41,7 @@ typedef struct s_image
 	int		bpp;
 	int		size_line;
 	int		endian;
+	int		zoom;
 }	t_image;
 
 typedef struct s_window
@@ -57,4 +70,15 @@ int		init_hook(t_window *window);
 int		init_images(t_window *window);
 void	free_images(t_window *window);
 void	render(t_window *window);
+
+void	apply_zoom(int *i, int zoom);
+
+
+
+
+
+
+
+
+
 #endif

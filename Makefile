@@ -21,12 +21,13 @@ SRCS=	fdf.c \
 		srcs/graphic/init_hook.c \
 		srcs/hooks/keyboard_event.c \
 		srcs/hooks/mouse_events.c \
-		srcs/graphic/render.c
+		srcs/graphic/render.c \
+		srcs/graphic/graphic_math.c 
 
 
 OBJS=	$(SRCS:.c=.o)
 
-all: $(LIBFT_A) $(NAME)
+all: $(MINILIB_A) $(LIBFT_A) $(NAME)
 #$(MINILIB_A) add after
 
 $(NAME): $(OBJS)

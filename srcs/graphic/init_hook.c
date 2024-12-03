@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 22:28:32 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:03:38 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int	init_hook(t_window *window)
 	// if (!mlx_hook(window->win, ON_MOUSEUP, ButtonPressMask,
 	// 		set_mouse_up, &window->mouse))
 	// 	return (0);
-	// render(window);
+	render(window);
 	return (1);
 }
