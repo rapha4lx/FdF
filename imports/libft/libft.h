@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:48:13 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/26 19:50:36 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:35:29 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
+int		ft_atoi_hexa(const char *str);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);

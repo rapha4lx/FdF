@@ -39,7 +39,8 @@ SRCS=ft_bzero.c \
      get_next_line.c \
      ft_get_split_size.c \
      ft_free_split.c \
-     ft_search_and_replace.c
+     ft_search_and_replace.c \
+     ft_atoi_hex.c
      
 
 OBJS = $(SRCS:.c=.o)
