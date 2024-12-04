@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/02 17:32:42 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:10:12 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,12 @@ typedef struct s_image
 	int		bpp;
 	int		size_line;
 	int		endian;
+
 	int		zoom;
+	int		rotation_x;
+	int		rotation_y;
+	int		position_x;
+	int		position_y;
 }	t_image;
 
 typedef struct s_window
