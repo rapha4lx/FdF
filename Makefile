@@ -28,7 +28,6 @@ SRCS=	fdf.c \
 OBJS=	$(SRCS:.c=.o)
 
 all: $(MINILIB_A) $(LIBFT_A) $(NAME)
-#$(MINILIB_A) add after
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT_PATH) -lft -L $(MINILIB_PATH) -lmlx -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)

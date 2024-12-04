@@ -6,10 +6,11 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 20:00:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/02 17:40:50 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:22:37 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../imports/libft/libft.h"
 #include "graphic.h"
 #include "../parse/parser.h"
 #include "../../imports/minilibx-linux/mlx.h"
@@ -21,6 +22,10 @@ static int init_image(void* mlx, t_image *image, int width, int height)
 	image->img_data = NULL;
 	image->img_ptr = NULL;
 	image->zoom	= 20;
+	image->rotation_x = 0;
+	image->rotation_y = 0;
+	image->position_x = 0;
+	image->position_y = 0;
 	image->img_ptr = mlx_new_image(mlx, width, height);
 	if (!image->img_ptr)
 		return (0);
@@ -39,6 +44,7 @@ int	init_images(t_window *window)
 	if (!init_image(window->mlx, &window->panel_image,
 		300, 500))
 		return (0);
+	render(window);
 	return (1);
 }
 
@@ -51,7 +57,7 @@ void	free_images(t_window *window)
 		mlx_destroy_image(window->mlx, window->panel_image.img_ptr);
 }
 
-void	bresenham(t_draw_point start, t_draw_point end, t_image *image, t_window *window)
+void	bresenham(t_draw_point start, t_draw_point end, t_map_pointer *collum, t_window *window)
 {
 	float	x_step;
 	float	y_step;
@@ -62,7 +68,6 @@ void	bresenham(t_draw_point start, t_draw_point end, t_image *image, t_window *w
 	// apply_zoom(&end.x, image->zoom);
 	// apply_zoom(&end.y, image->zoom);
 	
-	(void)image;
 	x_step = end.x - start.x;
 	y_step = end.y - start.y;
 	max_v = max(mod(x_step), mod(y_step));
@@ -71,21 +76,59 @@ void	bresenham(t_draw_point start, t_draw_point end, t_image *image, t_window *w
 	while ((int)(start.x - end.x) || (int)(start.y - end.y))
 	{
 		mlx_pixel_put(window->mlx,
-			window->win, start.x, start.y, 0xffffff);
+			window->win, start.x, start.y, ft_atoi_hexa(collum->hex));
 		start.x += x_step;
 		start.y += y_step;
 	}
 }
 
+void	draw(t_draw_point *start, t_lines *line, t_map_pointer *collum, t_window *window)
+{
+	t_draw_point end;
+	int temp_x;
+
+	temp_x = start->x;
+	end.x = start->x + 10;
+	end.y = start->y;
+	while (collum)
+	{
+		if (collum)
+		{
+			bresenham(*start, end, collum, window);
+			start->x = end.x;
+		}
+		if (line)
+		{
+			end.y += 10;
+			bresenham(*start, end, collum, window);
+			end.y  -= 10;
+		}
+		end.x += 10;
+		collum = collum->next;
+	}
+	start->x = temp_x;
+	start->y += 10;
+}
+
 void	render(t_window *window)
 {
+	t_lines *line;
+	t_map_pointer *collum;
 	t_draw_point start;
 	t_draw_point end;
-	t_lines line;
-	t_map_pointer collum;
 	
-	// bresenham(start, end, &window->map_image, window);
-	// bresenham(point, point.x, point.y + 100, window);
-	// bresenham(point, point.x - 100, point.y, window);
-	// bresenham(point, point.x, point.y - 100, window);	
+
+	line = window->map->map_lines;
+	start.y = (window->sizey / 2) + window->map_image.position_y;
+	while (line)
+	{
+		start.x = (window->sizex / 2) + window->map_image.position_x;
+		collum = line->pointer;
+		end = start;
+		end.y += 10;
+		bresenham(start, end, collum, window);
+		draw(&start, line, collum, window);
+		line = line->next;
+	}
+	draw(&start, line, collum, window);
 }
