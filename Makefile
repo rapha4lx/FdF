@@ -22,7 +22,8 @@ SRCS=	fdf.c \
 		srcs/hooks/keyboard_event.c \
 		srcs/hooks/mouse_events.c \
 		srcs/graphic/render.c \
-		srcs/graphic/graphic_math.c 
+		srcs/graphic/graphic_math.c \
+		srcs/graphic/clear_pixels.c
 
 
 OBJS=	$(SRCS:.c=.o)

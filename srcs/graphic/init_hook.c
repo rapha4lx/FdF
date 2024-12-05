@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/04 20:28:47 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/05 20:28:21 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,41 +28,62 @@ static int	keyboard_hook(int keycode, t_window *window)
 	if (keycode == 53 || keycode == 65307)
 		return (mlx_loop_end(window->mlx));
 	if (keycode == 97)
+		window->map_image.position.x -= 10;
+	else if (keycode == 119)
+		window->map_image.position.y -= 10;
+	else if (keycode == 115)
+		window->map_image.position.y += 10;
+	else if (keycode == 100)
+		window->map_image.position.x += 10;
+	else
 	{
-		window->map_image.position_x -= 10;
-		mlx_clear_window(window->mlx, window->win);
+		ft_putnbr_fd(keycode, 1);
+		ft_putchar_fd('\n', 1);
+	}
+	window->Key_event_count++;
+	return (0);
+}
+
+static int	key_up(int keycode, t_window *window)
+{
+	if (window->Key_event_count < 3)
+		return (0);
+	ft_putstr("key_up\n");
+	window->Key_event_count = 0;
+	if (keycode == 97)
+	{
+		clear_pixels(window);
 		render(window);
 	}
 	else if (keycode == 119)
 	{
-		window->map_image.position_y -= 10;
-		mlx_clear_window(window->mlx, window->win);
+		clear_pixels(window);
 		render(window);
 	}
 	else if (keycode == 115)
 	{
-		window->map_image.position_y += 10;
-		mlx_clear_window(window->mlx, window->win);
+		clear_pixels(window);
 		render(window);
 	}
 	else if (keycode == 100)
 	{
-		window->map_image.position_x += 10;
-		mlx_clear_window(window->mlx, window->win);
+		clear_pixels(window);
 		render(window);
 	}
-	ft_putnbr_fd(keycode, 1);
-	ft_putchar_fd('\n', 1);
 	return (0);
 }
 
 int	init_hook(t_window *window)
 {
-	if (!mlx_hook(window->win, ON_KEYDOWN, KeyPressMask, keyboard_hook, window))
+	mlx_key_hook(window->win, &key_up, window);
+
+	if (!mlx_hook(window->win, ON_KEYDOWN, KeyPressMask, &keyboard_hook, window))
 		return (0);
 	if (!mlx_hook(window->win, ON_DESTROY, NoEventMask,
-			close_from_button, window))
+			&close_from_button, window))
 		return (0);
+	// if (!mlx_hook(window->win, KeyRelease, KeyReleaseMask, &key_up, window))
+	// 	return (0);
 	// if (!mlx_hook(window->win, ON_MOUSEDOWN, ButtonPressMask,
 	// 		set_mouse_down, &window->mouse))
 	// 	return (0);
