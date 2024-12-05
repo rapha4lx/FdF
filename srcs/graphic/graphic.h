@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/04 20:10:12 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:35:46 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@
 float mod(float i);
 float max(float a, float b);
 
-typedef struct s_draw_point
+typedef struct s_point
 {
 	int x;
 	int y;
-}	t_draw_point;
+}	t_point;
 
 typedef struct s_image
 {
@@ -43,10 +43,8 @@ typedef struct s_image
 	int		endian;
 
 	int		zoom;
-	int		rotation_x;
-	int		rotation_y;
-	int		position_x;
-	int		position_y;
+	t_point	rotation;
+	t_point	position;
 }	t_image;
 
 typedef struct s_window
@@ -58,6 +56,7 @@ typedef struct s_window
 	int		sizey;
 	t_map	*map;
 	t_mouse	mouse;
+	int		Key_event_count;
 	t_image map_image;
 	t_image	panel_image;
 }	t_window;
@@ -75,6 +74,9 @@ int		init_hook(t_window *window);
 int		init_images(t_window *window);
 void	free_images(t_window *window);
 void	render(t_window *window);
+void	clear_pixels(t_window *window);
+
+
 
 void	apply_zoom(int *i, int zoom);
 
