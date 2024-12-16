@@ -6,11 +6,12 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:15:23 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 01:22:45 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/16 02:50:02 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
+#include "graphic.h"
 
 float mod(float i)
 {
@@ -26,14 +27,20 @@ float max(float a, float b)
 	return (b);
 }
 
-void	apply_zoom(int *i, int zoom)
+void	apply_zoom(t_point *point, int zoom)
 {
-	*i = *i * zoom;
-	(void)zoom; 
+	point->x = point->x * zoom;
+	point->y = point->y * zoom;
 }
 
 void	isometric(float *x, float *y, int z)
 {
-	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) - z;
+	*x = (*x - *y) * cos(0.8) * z;
+	*y = (*x + *y) * sin(0.8) * z;
+}	
+
+void	rotate(t_point *point, t_point rotate)
+{
+	point->x += rotate.x;
+	point->y += rotate.y;
 }

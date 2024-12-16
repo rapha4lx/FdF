@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 01:22:38 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/16 02:06:11 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	clear_pixels(t_window *window);
 
 
 
-void	apply_zoom(int *i, int zoom);
+void	apply_zoom(t_point *point, int zoom);
 void	isometric(float *x, float *y, int z);
-
+void	rotate(t_point *point, t_point rotate);
 
 
 

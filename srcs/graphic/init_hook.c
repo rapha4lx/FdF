@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 01:45:30 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/16 02:42:48 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ static int	keyboard_hook(int keycode, void *window)
 	else if (keycode == 100)
 		((t_window*)window)->map_image.position.x += 10;
 	else if (keycode == 122)
-		((t_window*)window)->map_image.zoom += 10;
+		((t_window*)window)->map_image.zoom++;
 	else if (keycode == 120)
-		((t_window*)window)->map_image.zoom -= 10;
+		((t_window*)window)->map_image.zoom--;
 	else if (keycode == 65361)
 		((t_window*)window)->map_image.rotation.x -= 10;
-
+	else if (keycode == 65363)
+		((t_window*)window)->map_image.rotation.x += 10;
+	else if (keycode == 65362)
+		((t_window*)window)->map_image.rotation.y -= 10;
+	else if (keycode == 65364)
+		((t_window*)window)->map_image.rotation.y += 10;
 	return (0);
 }
 

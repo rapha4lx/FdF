@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 20:00:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 01:50:11 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/16 02:56:10 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,12 @@ void	bresenham(t_point start, t_point end, t_map_pointer *collum, t_window *wind
 	float	y_step;
 	int		max_v;
 
-	start.x *= window->map_image.zoom;
-	start.y *= window->map_image.zoom;
-	end.x *= window->map_image.zoom;
-	end.y *= window->map_image.zoom;
-	
-	isometric(&start.x, &start.y, start.z);
-	isometric(&end.x, &end.y, end.z);
-	
-	start.x += window->map_image.rotation.x;
-	start.y += window->map_image.rotation.y;
-	end.x += window->map_image.rotation.x;
-	end.y += window->map_image.rotation.y;
-	
+	apply_zoom(&start, window->map_image.zoom);
+	apply_zoom(&end, window->map_image.zoom);	
+	// isometric(&start.x, &start.y, start.z);
+	// isometric(&end.x, &end.y, end.z);
+	// rotate(&start, window->map_image.rotation);
+	// rotate(&end, window->map_image.rotation);
 	x_step = end.x - start.x;
 	y_step = end.y - start.y;
 	max_v = max(mod(x_step), mod(y_step));
@@ -95,11 +88,11 @@ void	render(t_window *window)
 	t_point start;
 	t_point end;
 
+	// start.x = (window->sizex / 2) - ((window->map->map_width * 3) / 2) + window->map_image.position.x;
+	// start.y = (window->sizey / 2) - ((window->map->map_height * 3) / 2) + window->map_image.position.y;
 	window->map_image.last_position = window->map_image.position;
 	window->map_image.last_zoom = window->map_image.zoom;
 	line = window->map->map_lines;
-	// start.x = (window->sizex / 2) - ((window->map->map_width * 3) / 2) + window->map_image.position.x;
-	// start.y = (window->sizey / 2) - ((window->map->map_height * 3) / 2) + window->map_image.position.y;
 	while (line)
 	{
 		start.z = line->pointer->value;
