@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:43:38 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 22:09:34 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/15 16:54:24 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,4 @@ void	init_window(t_map *map)
 	mlx_destroy_display(window.mlx);
 	free(window.mlx);
 }
+

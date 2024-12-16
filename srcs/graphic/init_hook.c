@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/05 20:28:21 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/16 01:45:30 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,72 +23,80 @@ static int	close_from_button(t_window *window)
 	return (0);
 }
 
-static int	keyboard_hook(int keycode, t_window *window)
+static int	keyboard_hook(int keycode, void *window)
 {
+    printf("Tecla pressed: %d\n", keycode);
 	if (keycode == 53 || keycode == 65307)
-		return (mlx_loop_end(window->mlx));
+		return (mlx_loop_end(((t_window*)window)->mlx));
 	if (keycode == 97)
-		window->map_image.position.x -= 10;
+		((t_window*)window)->map_image.position.x -= 10;
 	else if (keycode == 119)
-		window->map_image.position.y -= 10;
+		((t_window*)window)->map_image.position.y -= 10;
 	else if (keycode == 115)
-		window->map_image.position.y += 10;
+		((t_window*)window)->map_image.position.y += 10;
 	else if (keycode == 100)
-		window->map_image.position.x += 10;
-	else
-	{
-		ft_putnbr_fd(keycode, 1);
-		ft_putchar_fd('\n', 1);
-	}
-	window->Key_event_count++;
+		((t_window*)window)->map_image.position.x += 10;
+	else if (keycode == 122)
+		((t_window*)window)->map_image.zoom += 10;
+	else if (keycode == 120)
+		((t_window*)window)->map_image.zoom -= 10;
+	else if (keycode == 65361)
+		((t_window*)window)->map_image.rotation.x -= 10;
+
 	return (0);
 }
 
-static int	key_up(int keycode, t_window *window)
+static int	loop_render(t_window *window)
 {
-	if (window->Key_event_count < 3)
-		return (0);
-	ft_putstr("key_up\n");
-	window->Key_event_count = 0;
-	if (keycode == 97)
-	{
-		clear_pixels(window);
-		render(window);
-	}
-	else if (keycode == 119)
-	{
-		clear_pixels(window);
-		render(window);
-	}
-	else if (keycode == 115)
-	{
-		clear_pixels(window);
-		render(window);
-	}
-	else if (keycode == 100)
-	{
-		clear_pixels(window);
-		render(window);
-	}
-	return (0);
+	// if ((window->map_image.last_position.x
+	// 		== window->map_image.position.x
+	// 	&& window->map_image.last_position.y
+	// 		== window->map_image.position.y) 
+	// 		&& (window->map_image.rotation.x
+	// 		== window->map_image.last_rotation.x
+	// 			&& window->map_image.last_rotation.y
+	// 		== window->map_image.rotation.y)
+	// 	)
+	// 	return (0);
+	// ft_putstr("loop\n");
+	clear_pixels(window);
+	render(window);
+
+	mlx_string_put(window->mlx, window->win, 10, 10, 0xFFFFFF, "positionX: ");
+	mlx_string_put(window->mlx, window->win, 70, 10, 0xFFFFFF, ft_itoa(window->map_image.position.x));
+	
+	mlx_string_put(window->mlx, window->win, 10, 30, 0xFFFFFF, "positionY: ");
+	mlx_string_put(window->mlx, window->win, 70, 30, 0xFFFFFF, ft_itoa(window->map_image.position.y));
+
+	mlx_string_put(window->mlx, window->win, 10, 50, 0xFFFFFF, "rotationX: ");
+	mlx_string_put(window->mlx, window->win, 70, 50, 0xFFFFFF, ft_itoa(window->map_image.rotation.x));
+
+	mlx_string_put(window->mlx, window->win, 10, 70, 0xFFFFFF, "rotationY: ");
+	mlx_string_put(window->mlx, window->win, 70, 70, 0xFFFFFF, ft_itoa(window->map_image.rotation.y));
+	
+	mlx_string_put(window->mlx, window->win, 10, 90, 0xFFFFFF, "zoom: ");
+	mlx_string_put(window->mlx, window->win, 70, 90, 0xFFFFFF, ft_itoa(window->map_image.zoom));
+	
+	return (1);
 }
 
 int	init_hook(t_window *window)
-{
-	mlx_key_hook(window->win, &key_up, window);
-
-	if (!mlx_hook(window->win, ON_KEYDOWN, KeyPressMask, &keyboard_hook, window))
-		return (0);
+{	
+	mlx_loop_hook(window->mlx, loop_render, window);
 	if (!mlx_hook(window->win, ON_DESTROY, NoEventMask,
 			&close_from_button, window))
 		return (0);
-	// if (!mlx_hook(window->win, KeyRelease, KeyReleaseMask, &key_up, window))
-	// 	return (0);
-	// if (!mlx_hook(window->win, ON_MOUSEDOWN, ButtonPressMask,
-	// 		set_mouse_down, &window->mouse))
-	// 	return (0);
-	// if (!mlx_hook(window->win, ON_MOUSEUP, ButtonPressMask,
-	// 		set_mouse_up, &window->mouse))
-	// 	return (0);
+	if (!mlx_hook(window->win, ON_KEYDOWN,
+			KeyPressMask, &keyboard_hook, window))
+		return (0);
+	if (!mlx_hook(window->win, ON_MOUSEDOWN, ButtonPressMask,
+			set_mouse_down, window))
+		return (0);
+	if (!mlx_hook(window->win, ON_MOUSEUP, ButtonReleaseMask,
+			set_mouse_up, window))
+		return (0);
+	if (!mlx_hook(window->win, ON_MOUSEMOVE, PointerMotionMask,
+			set_mouse_move_event, window))
+		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:50:47 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/05 15:48:11 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/15 15:17:20 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,73 @@
 
 #include <unistd.h>
 
-int	set_mouse_down(t_mouse *mouse)
+#include <stdio.h>
+
+int	set_mouse_down(int code, int x, int y, void *window)
 {
-	write(1, "mouse press\n", 13);
-	mouse->click_active = 1;
+	printf("buttond: %d \\ posX: %d \\ posY: %d\n",
+	code, x, y);
+
+	if (code == 1)
+		((t_window*)window)->mouse.button_one = 1;
+	else if (code == 1)
+		((t_window*)window)->mouse.button_two = 1;
+	((t_window*)window)->mouse.mouse_pos_x = x;
+	((t_window*)window)->mouse.mouse_pos_y = y;	
 	return (1);
 }
 
-int	set_mouse_up(t_mouse *mouse)
+int	set_mouse_up(int code, int x, int y, void *window)
 {
-	write(1, "mouse up\n", 10);
-	mouse->click_active = 0;
+	printf("up: %d \\ posX: %d \\ posY: %d\n",
+	code, x, y);
+	if (code == 1)
+		((t_window*)window)->mouse.button_one = 0;
+	else if (code == 1)
+		((t_window*)window)->mouse.button_two = 0; 
 	return (1);
 }
 
-int	mouse_move_event(void *window)
+static void	mouse_button_one_event(int x, int y, void *window)
 {
-	t_window	*win_ptr;
+	if (x > ((t_window*)window)->mouse.mouse_pos_x)
+		((t_window*)window)->map_image.position.x += 1;
+	else if (x < ((t_window*)window)->mouse.mouse_pos_x)
+		((t_window*)window)->map_image.position.x -= 1;
 
-	win_ptr = (t_window *)window;
-	if (!win_ptr->mouse.click_active)
-		return (0);
+	if (y > ((t_window*)window)->mouse.mouse_pos_y)
+		((t_window*)window)->map_image.position.y += 1;
+	else if (y < ((t_window*)window)->mouse.mouse_pos_y)
+		((t_window*)window)->map_image.position.y -= 1;
+
+	((t_window*)window)->mouse.mouse_pos_x = x;
+	((t_window*)window)->mouse.mouse_pos_y = y;
+}
+
+static void	mouse_button_two_event(int x, int y, void *window)
+{
+	if (x > ((t_window*)window)->mouse.mouse_pos_x)
+		((t_window*)window)->map_image.rotation.x += 1;
+	else if (x < ((t_window*)window)->mouse.mouse_pos_x)
+		((t_window*)window)->map_image.rotation.x -= 1;
+
+	if (y > ((t_window*)window)->mouse.mouse_pos_y)
+		((t_window*)window)->map_image.rotation.y += 1;
+	else if (y < ((t_window*)window)->mouse.mouse_pos_y)
+		((t_window*)window)->map_image.rotation.y -= 1;
+
+	((t_window*)window)->mouse.mouse_pos_x = x;
+	((t_window*)window)->mouse.mouse_pos_y = y;
+}
+
+int		set_mouse_move_event(int x, int y, void *window)
+{
+	printf("move: posX: %d \\ posY: %d\n",
+	x, y);
+	
+	if (((t_window*)window)->mouse.button_one)
+		mouse_button_one_event(x, y, window);
+	else if (((t_window*)window)->mouse.button_one)
+		mouse_button_two_event(x, y, window);
 	return (1);
 }

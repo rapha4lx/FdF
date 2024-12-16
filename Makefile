@@ -23,7 +23,8 @@ SRCS=	fdf.c \
 		srcs/hooks/mouse_events.c \
 		srcs/graphic/render.c \
 		srcs/graphic/graphic_math.c \
-		srcs/graphic/clear_pixels.c
+		srcs/graphic/clear_pixels.c \
+		srcs/graphic/image.c
 
 
 OBJS=	$(SRCS:.c=.o)
@@ -31,7 +32,7 @@ OBJS=	$(SRCS:.c=.o)
 all: $(MINILIB_A) $(LIBFT_A) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT_PATH) -lft -L $(MINILIB_PATH) -lmlx -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT_PATH) -lft -L $(MINILIB_PATH) -lmlx -lX11 -lXext -lft -lm -lz -o $(NAME)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
