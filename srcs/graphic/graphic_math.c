@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:15:23 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 02:50:02 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:59:09 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	apply_zoom(t_point *point, int zoom)
 
 void	isometric(float *x, float *y, int z)
 {
-	*x = (*x - *y) * cos(0.8) * z;
+	*x = (*x - *y) * cos(0.8);
 	*y = (*x + *y) * sin(0.8) * z;
 }	
 

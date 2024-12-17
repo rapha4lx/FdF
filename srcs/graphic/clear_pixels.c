@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:12:29 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 01:40:09 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:12:20 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ static void	bresenham(t_point start, t_point end, t_map_pointer *collum, t_windo
 	int		max_v;
 	
 
-	start.x *= window->map_image.zoom;
-	start.y *= window->map_image.zoom;
-	end.x *= window->map_image.zoom;
-	end.y *= window->map_image.zoom;
+	// apply_zoom(&start, window->map_image.last_zoom);
+	// apply_zoom(&end, window->map_image.last_zoom);
+	// start.x *= window->map_image.last_zoom;
+	// start.y *= window->map_image.last_zoom;
+	// end.x *= window->map_image.last_zoom;
+	// end.y *= window->map_image.last_zoom;
 	
 	x_step = end.x - start.x;
 	y_step = end.y - start.y;
@@ -56,7 +58,7 @@ static void	calc_line(t_point *start, t_lines *line, t_map_pointer *collum, t_wi
 	int temp_x;
 
 	temp_x = start->x;
-	end.x = start->x + 3;
+	end.x = start->x + window->map_image.last_zoom;
 	end.y = start->y;
 	while (collum)
 	{
@@ -67,15 +69,15 @@ static void	calc_line(t_point *start, t_lines *line, t_map_pointer *collum, t_wi
 		}
 		if (line)
 		{
-			end.y += 3;
+			end.y += window->map_image.last_zoom;
 			bresenham(*start, end, collum, window);
-			end.y  -= 3;
+			end.y -= window->map_image.last_zoom;
 		}
-		end.x += 3;
+		end.x += window->map_image.last_zoom;
 		collum = collum->next;
 	}
 	start->x = temp_x;
-	start->y += 3;
+	start->y += window->map_image.last_zoom;
 }
 
 void	clear_pixels(t_window *window)
@@ -86,13 +88,13 @@ void	clear_pixels(t_window *window)
 	t_point end;
 	
 	line = window->map->map_lines;
-	start.x = (window->sizex / 2) - ((window->map->map_width * 3) / 2) + window->map_image.last_position.x;
-	start.y = (window->sizey / 2) - ((window->map->map_height * 3) / 2) + window->map_image.last_position.y;
+	start.x = ((window->sizex / 2) - ((window->map->map_width * window->map_image.last_zoom) / 2)) + window->map_image.last_position.x;
+	start.y = ((window->sizey / 2) - ((window->map->map_height * window->map_image.last_zoom) / 2)) + window->map_image.last_position.y;
 	while (line)
 	{
 		collum = line->pointer;
 		end = start;
-		end.y += 3;
+		end.y += window->map_image.last_zoom;
 		bresenham(start, end, collum, window);
 		calc_line(&start, line, collum, window);
 		line = line->next;

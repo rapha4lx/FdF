@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 04:31:34 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/30 23:28:53 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:06:06 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ typedef struct s_map
 	char	*map_file;
 	int		map_width;
 	int		map_height;
+	
 	t_lines	*map_lines;
+	
 }	t_map;
 
 int		init_map(t_map **map);
