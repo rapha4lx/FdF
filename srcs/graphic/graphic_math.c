@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphic_math.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:15:23 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/17 18:59:09 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:02:46 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	apply_zoom(t_point *point, int zoom)
 void	isometric(float *x, float *y, int z)
 {
 	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) * z;
+	*y = (*x + *y) * sin(0.8) - z;
 }	
 
-void	rotate(t_point *point, t_point rotate)
+void	move(t_point *point, int zoom, t_window *window)
 {
-	point->x += rotate.x;
-	point->y += rotate.y;
+	point->x = (window->sizex / 2) - (window->map->map_width * zoom) + point->x;
+	point->y = (window->sizey / 2) - (window->map->map_height * zoom) + point->y;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 00:58:02 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 01:02:25 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:51:57 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	init_images(t_window *window)
 {
 	window->map_image.img_data = NULL;
 	window->map_image.img_ptr = NULL;
-	window->map_image.zoom	= 1;
+	window->map_image.zoom	= 10;
 	window->map_image.rotation.x = 0;
 	window->map_image.rotation.y = 0;
 	window->map_image.position.x = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_hook.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 02:42:48 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:06:53 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ static int	close_from_button(t_window *window)
 	return (0);
 }
 
-static int	keyboard_hook(int keycode, void *window)
+static int	event(int keycode, void *window)
 {
-    printf("Tecla pressed: %d\n", keycode);
-	if (keycode == 53 || keycode == 65307)
-		return (mlx_loop_end(((t_window*)window)->mlx));
 	if (keycode == 97)
 		((t_window*)window)->map_image.position.x -= 10;
 	else if (keycode == 119)
@@ -40,6 +37,14 @@ static int	keyboard_hook(int keycode, void *window)
 		((t_window*)window)->map_image.zoom++;
 	else if (keycode == 120)
 		((t_window*)window)->map_image.zoom--;
+	return (0);
+}
+
+static int	keyboard_hook(int keycode, void *window)
+{
+    printf("Tecla pressed: %d\n", keycode);
+	if (event(keycode, window))
+		return (0);
 	else if (keycode == 65361)
 		((t_window*)window)->map_image.rotation.x -= 10;
 	else if (keycode == 65363)
@@ -48,22 +53,25 @@ static int	keyboard_hook(int keycode, void *window)
 		((t_window*)window)->map_image.rotation.y -= 10;
 	else if (keycode == 65364)
 		((t_window*)window)->map_image.rotation.y += 10;
+	else if (keycode == 53 || keycode == 65307)
+		return (mlx_loop_end(((t_window*)window)->mlx));
 	return (0);
 }
 
 static int	loop_render(t_window *window)
 {
-	// if ((window->map_image.last_position.x
-	// 		== window->map_image.position.x
-	// 	&& window->map_image.last_position.y
-	// 		== window->map_image.position.y) 
-	// 		&& (window->map_image.rotation.x
-	// 		== window->map_image.last_rotation.x
-	// 			&& window->map_image.last_rotation.y
-	// 		== window->map_image.rotation.y)
-	// 	)
-	// 	return (0);
-	// ft_putstr("loop\n");
+	if ((window->map_image.last_position.x
+			== window->map_image.position.x
+		&& window->map_image.last_position.y
+			== window->map_image.position.y) 
+			&& ((window->map_image.rotation.x
+			== window->map_image.last_rotation.x
+				&& window->map_image.last_rotation.y
+			== window->map_image.rotation.y
+			&& window->map_image.zoom == window->map_image.last_zoom))
+		)
+		return (0);
+	ft_putstr("loop\n");
 	clear_pixels(window);
 	render(window);
 

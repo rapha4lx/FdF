@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 04:31:34 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/17 19:06:06 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:45:03 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+
+typedef	struct s_map_pointer_array
+{
+	int		value;
+	char	*hex;
+} t_map_pointer_array;
 
 typedef	struct s_map_pointer
 {
@@ -48,7 +55,7 @@ typedef struct s_map
 	int		map_height;
 	
 	t_lines	*map_lines;
-	
+	t_map_pointer_array **map_array;
 }	t_map;
 
 int		init_map(t_map **map);

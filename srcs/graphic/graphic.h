@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphic.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/16 02:06:11 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:00:23 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_window
 	int		sizey;
 	t_map	*map;
 	t_mouse	mouse;
-	int		Key_event_count;
 	t_image map_image;
 }	t_window;
 
@@ -84,8 +83,7 @@ void	clear_pixels(t_window *window);
 
 void	apply_zoom(t_point *point, int zoom);
 void	isometric(float *x, float *y, int z);
-void	rotate(t_point *point, t_point rotate);
-
+void	move(t_point *point, int zoom, t_window *window);
 
 
 

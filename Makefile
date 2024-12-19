@@ -53,6 +53,6 @@ fclean: clean
 
 r: $(NAME)
 	@clear
-	@./$(NAME) ./test.txt
+	@./$(NAME) ./test_maps/42.fdf
 
 c: fclean $(NAME)
