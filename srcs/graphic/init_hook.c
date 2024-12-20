@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_hook.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/18 22:06:53 by showoff          ###   ########.fr       */
+/*   Updated: 2024/12/20 16:26:38 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static int	keyboard_hook(int keycode, void *window)
 	if (event(keycode, window))
 		return (0);
 	else if (keycode == 65361)
-		((t_window*)window)->map_image.rotation.x -= 10;
+		((t_window*)window)->map_image.rotation.x -= 0.02f;
 	else if (keycode == 65363)
-		((t_window*)window)->map_image.rotation.x += 10;
+		((t_window*)window)->map_image.rotation.x += 0.02f;
 	else if (keycode == 65362)
-		((t_window*)window)->map_image.rotation.y -= 10;
+		((t_window*)window)->map_image.rotation.y += 0.02f;
 	else if (keycode == 65364)
-		((t_window*)window)->map_image.rotation.y += 10;
+		((t_window*)window)->map_image.rotation.y -= 0.02f;
 	else if (keycode == 53 || keycode == 65307)
 		return (mlx_loop_end(((t_window*)window)->mlx));
 	return (0);
@@ -90,6 +90,12 @@ static int	loop_render(t_window *window)
 	mlx_string_put(window->mlx, window->win, 10, 90, 0xFFFFFF, "zoom: ");
 	mlx_string_put(window->mlx, window->win, 70, 90, 0xFFFFFF, ft_itoa(window->map_image.zoom));
 	
+	mlx_string_put(window->mlx, window->win, 10, 110, 0xFFFFFF, "sizeX: ");
+	mlx_string_put(window->mlx, window->win, 70, 110, 0xFFFFFF, ft_itoa(window->sizex));
+
+	mlx_string_put(window->mlx, window->win, 10, 130, 0xFFFFFF, "sizeY: ");
+	mlx_string_put(window->mlx, window->win, 70, 130, 0xFFFFFF, ft_itoa(window->sizey));
+
 	return (1);
 }
 

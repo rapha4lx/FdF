@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_pixels.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:12:29 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/18 22:13:51 by showoff          ###   ########.fr       */
+/*   Updated: 2024/12/20 16:12:18 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@ static void	apply_effect(t_point *start, t_point *end, t_window *window)
 	end->z = window->map->map_array[(int)end->y][(int)end->x].value;
 	apply_zoom(start, window->map_image.last_zoom);
 	apply_zoom(end, window->map_image.last_zoom);
-	isometric(&start->x, &start->y, start->z * window->map_image.last_zoom);
-	isometric(&end->x, &end->y, end->z * window->map_image.last_zoom);
-	move(start, window->map_image.last_zoom, window);
-	move(end, window->map_image.last_zoom, window);
+
+	center_map(start, window->map_image.last_zoom, window);
+	center_map(end, window->map_image.last_zoom, window);
+	
+	// isometric(&start->x, &start->y, start->z * window->map_image.last_zoom);
+	// isometric(&end->x, &end->y, end->z * window->map_image.last_zoom);
+
+	isometric(start, &window->map_image.last_rotation, window->map_image.last_zoom);
+	isometric(end, &window->map_image.last_rotation, window->map_image.last_zoom);
+	calc_move(start, end, &window->map_image.last_position);
 }
 
 static void	bresenham(t_point start, t_point end,t_window *window)
@@ -42,7 +48,7 @@ static void	bresenham(t_point start, t_point end,t_window *window)
 	apply_effect(&start, &end, window);
 	x_step = end.x - start.x;
 	y_step = end.y - start.y;
-	max_v = max(mod(x_step), mod(y_step));
+	max_v = MAX(MOD(x_step), MOD(y_step));
 	x_step /= max_v;
 	y_step /= max_v;
 	while ((int)(start.x - end.x) || (int)(start.y - end.y))

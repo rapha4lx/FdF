@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphic.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/18 22:00:23 by showoff          ###   ########.fr       */
+/*   Updated: 2024/12/20 16:25:49 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # define CREATE_WINDOW_FAIL "No Success to create window"
 # define INIT_HOOK_FAIL "Init Hook Fail"
 
-// # define MAX(a, b) (((a > b) * a) + ((a < b) * b))
+# define MAX(a, b) (((a > b) * a) + ((a < b) * b))
 // # define MAX(a, b) (a > b ? a : b)
-// # define MOD(a) (((a > 0) * a) + ((a < 0) * (-a))) 
+# define MOD(a) (((a > 0) * a) + ((a < 0) * (-a))) 
 // # define MOD(a) ((a < 0) ? -a : a) 
 
-float mod(float i);
-float max(float a, float b);
+// float mod(float i);
+// float max(float a, float b);
 
 typedef struct s_point
 {
@@ -82,9 +82,9 @@ void	clear_pixels(t_window *window);
 
 
 void	apply_zoom(t_point *point, int zoom);
-void	isometric(float *x, float *y, int z);
-void	move(t_point *point, int zoom, t_window *window);
-
+void	isometric(t_point *point, t_point *rotation, int zoom);
+void	center_map(t_point *point, int zoom, t_window *window);
+void	calc_move(t_point *start, t_point *end, t_point *position);
 
 
 
