@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/26 19:46:11 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/11/26 19:52:02 by rferro-d         ###   ########.fr       */
+/*   Created: 2024/12/21 22:20:08 by rferro-d          #+#    #+#             */
+/*   Updated: 2024/12/21 22:21:03 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	ft_search_and_replace(char *str, const char search, const char replace)
 {
-    int     i;
+	int		i;
 
-    i = 0;
-    if (!str)
-        return ;
-    while (str[i])
-    {
-        if ((unsigned char)str[i] == (unsigned char)search)
-            str[i] = replace;
-        i++;
-    }
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		if ((unsigned char)str[i] == (unsigned char)search)
+			str[i] = replace;
+		i++;
+	}
 }
