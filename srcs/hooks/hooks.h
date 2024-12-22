@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:55:13 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/15 14:48:28 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:06:17 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_mouse
 int		set_mouse_down(int code, int x, int y, void *window);
 int		set_mouse_up(int code, int x, int y, void *window);
 int		set_mouse_move_event(int x, int y, void *window);
-// int		mouse_event(int button, int x, int y, void *param);
 
+int		keyboard_hook(int keycode, void *window);
 
 #endif
