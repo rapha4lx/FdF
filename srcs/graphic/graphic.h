@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/20 16:25:49 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:17:10 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,14 @@
 # define CREATE_WINDOW_FAIL "No Success to create window"
 # define INIT_HOOK_FAIL "Init Hook Fail"
 
-# define MAX(a, b) (((a > b) * a) + ((a < b) * b))
-// # define MAX(a, b) (a > b ? a : b)
-# define MOD(a) (((a > 0) * a) + ((a < 0) * (-a))) 
-// # define MOD(a) ((a < 0) ? -a : a) 
-
-// float mod(float i);
-// float max(float a, float b);
+float	mod(float i);
+float	max(float a, float b);
 
 typedef struct s_point
 {
-	float x;
-	float y;
-	int z;
+	float	x;
+	float	y;
+	int		z;
 }	t_point;
 
 typedef struct s_image
@@ -61,15 +56,13 @@ typedef struct s_window
 	int		sizey;
 	t_map	*map;
 	t_mouse	mouse;
-	t_image map_image;
+	t_image	map_image;
 }	t_window;
-
 
 void	free_pointer(void **pointer);
 
 void	init_window(t_map *map);
 int		free_window(t_window *window);
-
 
 void	free_hook(t_window **window);
 int		init_hook(t_window *window);
@@ -78,17 +71,12 @@ int		init_images(t_window *window);
 void	free_images(t_window *window);
 void	render(t_window *window);
 void	clear_pixels(t_window *window);
-
-
+void	set_pixel(t_window *window, int x, int y, int color);
 
 void	apply_zoom(t_point *point, int zoom);
 void	isometric(t_point *point, t_point *rotation, int zoom);
 void	center_map(t_point *point, int zoom, t_window *window);
 void	calc_move(t_point *start, t_point *end, t_point *position);
-
-
-
-
-
+void	draw_string(t_point *point, char *text, char *value, t_window *window);
 
 #endif
