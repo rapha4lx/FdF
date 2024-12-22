@@ -6,18 +6,18 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/01 21:49:52 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:16:29 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../imports/libft/libft.h"
 #include "parser.h"
 #include <fcntl.h>
 #include <stdio.h>
-#include "../../imports/libft/libft.h"
 
-int		init_map(t_map **map)
+int	init_map(t_map **map)
 {
-	(*map) = (t_map*)malloc(sizeof(t_map) * 1);
+	(*map) = (t_map *)malloc(sizeof(t_map) * 1);
 	if (!*map)
 		return (0);
 	(*map)->status = 0;
@@ -31,22 +31,27 @@ int		init_map(t_map **map)
 
 void	free_map(t_map **map)
 {
-	char * line;
+	char	*line;
 
 	if (!(*map))
-		return;
+		return ;
 	if ((*map)->fd_status && (*map)->map_fd != 0)
 	{
-		while ((line = get_next_line((*map)->map_fd)))
-			free (line);
+		line = get_next_line((*map)->map_fd);
+		while (line)
+		{
+			free(line);
+			line = get_next_line((*map)->map_fd);
+		}
 		close((*map)->map_fd);
 	}
-	ft_sline_clear(&(*map)->map_lines, NULL);
+	ft_sline_clear(&(*map)->map_lines);
+	free_map_array(&(*map)->map_array);
 	free(*map);
 	(*map) = NULL;
 }
 
-int		map_line(t_map **map, char *line)
+int	map_line(t_map **map, char *line)
 {
 	char	**buff;
 	int		buff_s;
@@ -73,7 +78,7 @@ int		map_line(t_map **map, char *line)
 
 static int	count_line(t_lines *lst)
 {
-	int		size;
+	int	size;
 
 	size = 0;
 	if (!lst)
@@ -86,17 +91,17 @@ static int	count_line(t_lines *lst)
 	return (size);
 }
 
-int		map_check(char *file, t_map **map)
+int	map_check(char *file, t_map **map)
 {
-    char	*line;
-	
+	char	*line;
+
 	(*map)->map_fd = open(file, O_RDONLY);
 	if ((*map)->map_fd < 0)
 		return (0);
 	(*map)->fd_status = 1;
 	(*map)->map_file = file;
 	line = get_next_line((*map)->map_fd);
-    while (*map && line)
+	while (*map && line)
 	{
 		ft_search_and_replace(line, '\n', '\0');
 		if (!(map_line(map, line)))
@@ -114,5 +119,3 @@ int		map_check(char *file, t_map **map)
 	close((*map)->map_fd);
 	return (1);
 }
-
-
