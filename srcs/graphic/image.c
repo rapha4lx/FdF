@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 00:58:02 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 21:25:43 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:42:07 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	init_images(t_window *window)
 			&window->map_image.endian);
 	if (!window->map_image.img_data)
 		return (0);
+	window->mouse.button_one = 0;
+	window->mouse.button_two = 0;
 	render(window);
 	return (1);
 }
