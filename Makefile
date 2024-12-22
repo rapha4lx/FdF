@@ -14,7 +14,6 @@ INCLUDE= includes
 SRCS=	fdf.c \
 		srcs/parse/map_lines.c \
 		srcs/parse/map_pointer.c \
-		srcs/parse/map_control.c \
 		srcs/parse/map_build.c \
 		srcs/parse/parser.c \
 		srcs/graphic/init_window.c \
@@ -23,8 +22,11 @@ SRCS=	fdf.c \
 		srcs/hooks/mouse_events.c \
 		srcs/graphic/render.c \
 		srcs/graphic/graphic_math.c \
+		srcs/graphic/graphic_math_utils.c \
 		srcs/graphic/clear_pixels.c \
-		srcs/graphic/image.c
+		srcs/graphic/image.c \
+		srcs/graphic/draw_in_image.c \
+		srcs/graphic/array_manager.c
 
 
 OBJS=	$(SRCS:.c=.o)
