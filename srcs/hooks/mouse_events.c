@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:50:47 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 21:29:03 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:35:15 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	set_mouse_down(int code, int x, int y, void *window)
 {
 	if (code == 1)
 		((t_window *)window)->mouse.button_one = 1;
-	else if (code == 1)
+	else if (code == 2)
 		((t_window *)window)->mouse.button_two = 1;
 	((t_window *)window)->mouse.mouse_pos_x = x;
 	((t_window *)window)->mouse.mouse_pos_y = y;
@@ -31,7 +31,7 @@ int	set_mouse_up(int code, int x, int y, void *window)
 	(void)y;
 	if (code == 1)
 		((t_window *)window)->mouse.button_one = 0;
-	else if (code == 1)
+	else if (code == 2)
 		((t_window *)window)->mouse.button_two = 0;
 	return (1);
 }
