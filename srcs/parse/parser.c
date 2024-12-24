@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:05:17 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 22:16:29 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:48:23 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_map(t_map **map)
 		close((*map)->map_fd);
 	}
 	ft_sline_clear(&(*map)->map_lines);
-	free_map_array(&(*map)->map_array);
+	free_map_array((*map)->map_array);
 	free(*map);
 	(*map) = NULL;
 }
