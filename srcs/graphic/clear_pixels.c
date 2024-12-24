@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_pixels.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:12:29 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 21:26:23 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/24 17:28:07 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 static void	apply_effect(t_point *start, t_point *end, t_window *window)
 {
-	start->z = window->map->map_array[(int)start->y][(int)start->x].value;
-	end->z = window->map->map_array[(int)end->y][(int)end->x].value;
+	start->z = window->map->map_array[((int)start->y * window->map->map_width)
+		+ (int)start->x].value;
+	end->z = window->map->map_array[((int)end->y * window->map->map_width)
+		+ (int)end->x].value;
 	apply_zoom(start, window->map_image.last_zoom);
 	apply_zoom(end, window->map_image.last_zoom);
 	center_map(start, window->map_image.last_zoom, window);
