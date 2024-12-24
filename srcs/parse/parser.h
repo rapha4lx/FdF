@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 04:31:34 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 22:12:59 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:56:57 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ typedef struct s_map
 	int						map_height;
 
 	t_lines					*map_lines;
-	t_map_pointer_array		**map_array;
+	t_map_pointer_array		*map_array;
 }							t_map;
 
 int							init_map(t_map **map);
 int							map_check(char *file, t_map **map);
 int							build_line(t_map **map, char **buff);
 void						free_map(t_map **map);
-int							init_map_array(t_map_pointer_array ***array,
+int							init_map_array(t_map_pointer_array **array,
 								t_lines *lines, int height, int widht);
-void						free_map_array(t_map_pointer_array ***array);
+void						free_map_array(t_map_pointer_array *array);
 
 #endif
