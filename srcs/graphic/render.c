@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
+/*   By: showoff <showoff@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 20:00:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 20:58:54 by rferro-d         ###   ########.fr       */
+/*   Updated: 2024/12/24 17:28:34 by showoff          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../imports/libft/libft.h"
-#include "graphic.h"
-#include "../parse/parser.h"
 #include "../../imports/minilibx-linux/mlx.h"
+#include "../parse/parser.h"
+#include "graphic.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -27,14 +27,17 @@ static void	save_last_render(t_window *window)
 	window->map_image.last_zoom = window->map_image.zoom;
 }
 
-static void	apply_effect(t_point *start, t_point *end,
-	int *color, t_window *window)
+static void	apply_effect(t_point *start, t_point *end, int *color,
+		t_window *window)
 {
-	start->z = window->map->map_array[(int)start->y][(int)start->x].value;
-	end->z = window->map->map_array[(int)end->y][(int)end->x].value;
-	if (window->map->map_array[(int)start->y][(int)start->x].hex)
-		*color = ft_atoi_hexa(window->map->map_array
-			[(int)start->y][(int)start->x].hex);
+	start->z = window->map->map_array[((int)start->y * window->map->map_width)
+		+ (int)start->x].value;
+	end->z = window->map->map_array[((int)end->y * window->map->map_width)
+		+ (int)end->x].value;
+	if (window->map->map_array[((int)start->y * window->map->map_width)
+			+ (int)start->x].hex)
+		*color = ft_atoi_hexa(window->map->map_array[((int)start->y
+					* window->map->map_width) + (int)start->x].hex);
 	else if (start->z > 0)
 		*color = 0xe80c0c;
 	else
@@ -63,8 +66,8 @@ static void	bresenham(t_point start, t_point end, t_window *window)
 	y_step /= max_v;
 	while ((int)(start.x - end.x) || (int)(start.y - end.y))
 	{
-		if (!((start.x > 0 && start.x < window->sizex)
-				&& (start.y > 0 && start.y < window->sizey)))
+		if (!((start.x > 0 && start.x < window->sizex) && (start.y > 0
+					&& start.y < window->sizey)))
 		{
 			start.x += x_step;
 			start.y += y_step;
@@ -77,7 +80,7 @@ static void	bresenham(t_point start, t_point end, t_window *window)
 }
 
 static void	check_if_apply_bresenham(t_point start, t_point end,
-	t_window *window)
+		t_window *window)
 {
 	if (start.x < window->map->map_width - 1)
 	{
@@ -90,7 +93,7 @@ static void	check_if_apply_bresenham(t_point start, t_point end,
 		++end.y;
 		bresenham(start, end, window);
 		--end.y;
-	}	
+	}
 }
 
 void	render(t_window *window)
@@ -111,6 +114,6 @@ void	render(t_window *window)
 		start.y++;
 	}
 	save_last_render(window);
-	mlx_put_image_to_window(window->mlx, window->win,
-		window->map_image.img_ptr, 0, 0);
+	mlx_put_image_to_window(window->mlx, window->win, window->map_image.img_ptr,
+		0, 0);
 }
