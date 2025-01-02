@@ -47,6 +47,7 @@ $(LIBFT_A):
 
 clean:
 	@rm -f $(OBJS)
+	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
 	@make fclean -C $(LIBFT_PATH)
@@ -57,4 +58,5 @@ r: $(NAME)
 	@clear
 	@./$(NAME) ./test_maps/42.fdf
 
-c: fclean $(NAME)
+val: 
+	valgrind ./$(NAME) $(var)

@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:03:46 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 21:15:56 by rferro-d         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:37:17 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	keyboard_hook(int keycode, void *window)
 
 static void	change_zoom(int keycode, t_window *window)
 {
-	if (keycode == 122 && window->map_image.zoom < 30)
+	if (keycode == 122 && window->map_image.zoom < 27)
 		window->map_image.zoom++;
-	else if (keycode == 120 && window->map_image.zoom > 0)
+	else if (keycode == 120 && window->map_image.zoom > 1)
 		window->map_image.zoom--;
 }

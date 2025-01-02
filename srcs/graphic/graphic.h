@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 21:17:10 by rferro-d         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:16:55 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		init_hook(t_window *window);
 
 int		init_images(t_window *window);
 void	free_images(t_window *window);
+int		loop_render(t_window *window);
 void	render(t_window *window);
 void	clear_pixels(t_window *window);
 void	set_pixel(t_window *window, int x, int y, int color);

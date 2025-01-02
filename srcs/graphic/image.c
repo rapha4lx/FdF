@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 00:58:02 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/22 13:42:07 by rferro-d         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:25:01 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	init_images(t_window *window)
 		return (0);
 	window->mouse.button_one = 0;
 	window->mouse.button_two = 0;
-	render(window);
 	return (1);
 }
 

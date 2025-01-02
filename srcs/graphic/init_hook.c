@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:32 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/21 22:14:17 by rferro-d         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:51:33 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ static int	check_last_render(t_window *window)
 	return (1);
 }
 
-static int	loop_render(t_window *window)
+int	loop_render(t_window *window)
 {
 	t_point		point;
+	static int	first = 1;
 
-	if (check_last_render(window))
+	if (!first && check_last_render(window))
 		return (0);
-	clear_pixels(window);
+	if (!first)
+		clear_pixels(window);
 	render(window);
 	point.x = 10;
 	point.y = 10;
@@ -59,6 +61,7 @@ static int	loop_render(t_window *window)
 	draw_string(&point, "zoom: ", ft_itoa(window->map_image.zoom), window);
 	draw_string(&point, "sizeX: ", ft_itoa(window->sizex), window);
 	draw_string(&point, "sizeY: ", ft_itoa(window->sizey), window);
+	first = 0;
 	return (1);
 }
 
