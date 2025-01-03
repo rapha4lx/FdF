@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/fdf",
             // "args": ["${workspaceFolder}/test_maps/mars.fdf"],
-            "args": ["${workspaceFolder}/test.txt"],
+            "args": ["${workspaceFolder}/test.fdf"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

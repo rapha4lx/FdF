@@ -6,7 +6,7 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:44:00 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/05 19:35:46 by rferro-d         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:16:55 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,14 @@
 # define CREATE_WINDOW_FAIL "No Success to create window"
 # define INIT_HOOK_FAIL "Init Hook Fail"
 
-// # define MAX(a, b) (((a > b) * a) + ((a < b) * b))
-// # define MAX(a, b) (a > b ? a : b)
-// # define MOD(a) (((a > 0) * a) + ((a < 0) * (-a))) 
-// # define MOD(a) ((a < 0) ? -a : a) 
-
-float mod(float i);
-float max(float a, float b);
+float	mod(float i);
+float	max(float a, float b);
 
 typedef struct s_point
 {
-	int x;
-	int y;
+	float	x;
+	float	y;
+	int		z;
 }	t_point;
 
 typedef struct s_image
@@ -43,8 +39,12 @@ typedef struct s_image
 	int		endian;
 
 	int		zoom;
+	int		last_zoom;
 	t_point	rotation;
 	t_point	position;
+
+	t_point	last_rotation;
+	t_point	last_position;
 }	t_image;
 
 typedef struct s_window
@@ -56,36 +56,28 @@ typedef struct s_window
 	int		sizey;
 	t_map	*map;
 	t_mouse	mouse;
-	int		Key_event_count;
-	t_image map_image;
-	t_image	panel_image;
+	t_image	map_image;
 }	t_window;
-
 
 void	free_pointer(void **pointer);
 
 void	init_window(t_map *map);
 int		free_window(t_window *window);
 
-
 void	free_hook(t_window **window);
 int		init_hook(t_window *window);
 
 int		init_images(t_window *window);
 void	free_images(t_window *window);
+int		loop_render(t_window *window);
 void	render(t_window *window);
 void	clear_pixels(t_window *window);
+void	set_pixel(t_window *window, int x, int y, int color);
 
-
-
-void	apply_zoom(int *i, int zoom);
-
-
-
-
-
-
-
-
+void	apply_zoom(t_point *point, int zoom);
+void	isometric(t_point *point, t_point *rotation, int zoom);
+void	center_map(t_point *point, int zoom, t_window *window);
+void	calc_move(t_point *start, t_point *end, t_point *position);
+void	draw_string(t_point *point, char *text, char *value, t_window *window);
 
 #endif

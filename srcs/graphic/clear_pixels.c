@@ -6,33 +6,36 @@
 /*   By: rferro-d <rferro-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:12:29 by rferro-d          #+#    #+#             */
-/*   Updated: 2024/12/05 19:25:56 by rferro-d         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:39:02 by rferro-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphic.h"
 
-void	static clear(t_window *window, int x, int y)
+static void	apply_effect(t_point *start, t_point *end, t_window *window)
 {
-    unsigned int	index;
-
-	if (!((x > 0 && x < window->sizex) && (y  > 0 && y < window->sizey)))
-		return;
-	index = (y * window->map_image.size_line + x * (window->map_image.bpp / 8));
-	*(unsigned int *)(window->map_image.img_data + index) = 0; // Define a cor do pixel
+	start->z = window->map->map_array[((int)start->y * window->map->map_width)
+		+ (int)start->x].value;
+	end->z = window->map->map_array[((int)end->y * window->map->map_width)
+		+ (int)end->x].value;
+	apply_zoom(start, window->map_image.last_zoom);
+	apply_zoom(end, window->map_image.last_zoom);
+	center_map(start, window->map_image.last_zoom, window);
+	center_map(end, window->map_image.last_zoom, window);
+	isometric(start, &window->map_image.last_rotation,
+		window->map_image.last_zoom);
+	isometric(end, &window->map_image.last_rotation,
+		window->map_image.last_zoom);
+	calc_move(start, end, &window->map_image.last_position);
 }
 
-void	static bresenham(t_point start, t_point end, t_window *window)
+static void	bresenham(t_point start, t_point end, t_window *window)
 {
 	float	x_step;
 	float	y_step;
 	int		max_v;
-	
-	// apply_zoom(&start.x, image->zoom);
-	// apply_zoom(&start.y, image->zoom);
-	// apply_zoom(&end.x, image->zoom);
-	// apply_zoom(&end.y, image->zoom);
-	
+
+	apply_effect(&start, &end, window);
 	x_step = end.x - start.x;
 	y_step = end.y - start.y;
 	max_v = max(mod(x_step), mod(y_step));
@@ -40,58 +43,51 @@ void	static bresenham(t_point start, t_point end, t_window *window)
 	y_step /= max_v;
 	while ((int)(start.x - end.x) || (int)(start.y - end.y))
 	{
-		clear(window, start.x, start.y);
+		if (!((start.x > 0 && start.x < window->sizex) && (start.y > 0
+					&& start.y < window->sizey)))
+		{
+			start.x += x_step;
+			start.y += y_step;
+			continue ;
+		}
+		set_pixel(window, start.x, start.y, 0);
 		start.x += x_step;
 		start.y += y_step;
 	}
 }
 
-void	static calc_line(t_point *start, t_lines *line, t_map_pointer *collum, t_window *window)
+static void	check_if_apply_bresenham(t_point start, t_point end,
+		t_window *window)
 {
-	t_point end;
-	int temp_x;
-
-	temp_x = start->x;
-	end.x = start->x + 3;
-	end.y = start->y;
-	while (collum)
+	if (start.x < window->map->map_width - 1)
 	{
-		if (collum)
-		{
-			bresenham(*start, end, window);
-			start->x = end.x;
-		}
-		if (line)
-		{
-			end.y += 3;
-			bresenham(*start, end, window);
-			end.y  -= 3;
-		}
-		end.x += 3;
-		collum = collum->next;
+		++end.x;
+		bresenham(start, end, window);
+		--end.x;
 	}
-	start->x = temp_x;
-	start->y += 3;
+	if (start.y < window->map->map_height - 1)
+	{
+		++end.y;
+		bresenham(start, end, window);
+		--end.y;
+	}
 }
 
 void	clear_pixels(t_window *window)
 {
-	t_lines *line;
-	t_map_pointer *collum;
-	t_point start;
-	t_point end;
+	t_point	start;
+	t_point	end;
 
-	line = window->map->map_lines;
-	start.x = (window->sizex / 2) - ((window->map->map_width * 3) / 2) + window->map_image.position.x;
-	start.y = (window->sizey / 2) - ((window->map->map_height * 3) / 2) + window->map_image.position.y;
-	while (line)
+	start.y = 0;
+	while (start.y < window->map->map_height)
 	{
-		collum = line->pointer;
-		end = start;
-		end.y += 3;
-		bresenham(start, end, window);
-		calc_line(&start, line, collum, window);
-		line = line->next;
+		start.x = 0;
+		while (start.x < window->map->map_width)
+		{
+			end = start;
+			check_if_apply_bresenham(start, end, window);
+			start.x++;
+		}
+		start.y++;
 	}
-	calc_line(&start, line, collum, window);
 }
